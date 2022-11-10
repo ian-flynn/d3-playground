@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heat Map</title>
+    <link rel="stylesheet" href="./index.css">
+    <script type = "text/javascript" src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+    <div id="main">
+        <div id="svgBox"></div>
+    </div>
+    <script>
+        var w = 1200,
+            h = 800,
+            padding = 80,
+            tooltip = d3.select('#svgBox')
+                        .append('div')
+                        .attr('id', 'tooltip')
+                        .style('opacity', 0),
+            svg = d3.select('#svgBox')
+                    .append('svg')
+                    .attr('width', w)
+                    .attr('height', h);
+
+        d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json')
+            .then((datas) => {
+                // TITLE 
+                svg.append('text')
+                    .text('Heat Map')
+                    .attr('x', 800)
+                    .attr('y', 50)
+                    .attr('id', 'title');
+                // SUBTITLE
+                svg.append('text')
+                    .text('1753 - 2015: base temperature 8.66℃')
+                    .attr('x', 800)
+                    .attr('y', 80)
+                    .attr('id', 'description');
+                
+                    
+
+
+            })
+    </script>
+</body>
+</html>
