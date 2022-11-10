@@ -40,6 +40,23 @@
                     .attr('x', 800)
                     .attr('y', 80)
                     .attr('id', 'description');
+                // Y-AXIS (up-down)
+                const yAxis = d3.axisLeft(d3.scaleTime()
+                                            .domain([1,12])
+                                            .range([h- padding, padding]));
+                svg.append('g')
+                    .attr('transform', 'translate('+padding+',0)')
+                    .call(yAxis)
+                    .attr('id', 'y-axis');
+                // X-AXIS (left-right)
+                const xAxis = d3.axisBottom(d3.scaleTime()
+                                                .domain([1,13])
+                                                .range([padding, w - padding]));
+                svg.append('g')
+                    .attr('transform', 'translate(0,'+(h - padding)+ ')')
+                    .call(xAxis)
+                    .attr('id', 'x-axis')
+
                 
                     
 
