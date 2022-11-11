@@ -17,6 +17,9 @@
         var w = 1200,
             h = 800,
             padding = 80,
+            tip = d3.tip()
+                    .direction('n')
+                    .offset([-10, 0]),
             tooltip = d3.select('#svgBox')
                         .append('div')
                         .attr('id', 'tooltip')
@@ -66,7 +69,7 @@
                     .attr('id', 'x-axis');
                             
             // Y-AXIS (Left)
-                const months = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+                const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
                 const yScale = d3.scaleBand()
                                     .domain([0,1,2,3,4,5,6,7,8,9,10,11])
                                     .range([h - padding, padding]);
@@ -110,18 +113,21 @@
                     .attr('x', (item) => {
                         return xScale(item.year)
                     })
+
                 // TOOLTIP
                     .on('mouseover', function (event, d) {
                         var i = this.getAttribute('index');
-                        tooltip.transition().duration(200).style('opacity', 1);
+                        tooltip.style('opacity', 1);
                         tooltip
                         .html('hey girl')
-                        .attr('data-date', datas.data[i][0])
-                        .style('left', 350 + 'px')
-                        .style('top', 350 + 'px');
+                        .style('left', event.pageX + 'px')
+                        .style('top', event.pageY + 'px');
+                        tip.show
+
                     })
                     .on('mouseout', function () {
-                        tooltip.transition().duration(1000).style('opacity', 0);
+                        tooltip.style('opacity', 0);
+                        tip.hide;
                     });
 
 
