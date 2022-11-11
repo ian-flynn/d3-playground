@@ -7,6 +7,7 @@
     <title>Heat Map</title>
     <link rel="stylesheet" href="./index.css">
     <script type = "text/javascript" src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/d3-v6-tip@1.0.6/build/d3-v6-tip.js"></script>
 </head>
 <body>
     <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
@@ -14,23 +15,26 @@
         <div id="svgBox"></div>
     </div>
     <script>
-        var w = 1200,
-            h = 800,
+        var w = 1400,
+            h = 600,
             padding = 80,
             tip = d3.tip()
+                    .attr('id', 'tooltip')
+                    .html(function (d) {
+                    return d;
+                    })
                     .direction('n')
-                    .offset([-10, 0]),
-            tooltip = d3.select('#svgBox')
-                        .append('div')
-                        .attr('id', 'tooltip')
-                        .style('opacity', 0),
+                    .offset([-2, 0]),
             svg = d3.select('#svgBox')
                     .append('svg')
                     .attr('width', w)
-                    .attr('height', h);
+                    .attr('height', h)
+                    .call(tip);
 
         d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json')
             .then((datas) => {
+                const baseTemp = datas.baseTemperature;
+                console.log('Base Temp is: ' + baseTemp);
                 var monthlyData = datas.monthlyVariance;
                 monthlyData.forEach((item) => {
                     item.month -= 1;
@@ -93,10 +97,11 @@
                     .attr('class', 'cell')
                     .attr('fill', (item) => {
                         const variance = item.variance;
-                        return variance <= -1 ? 'black' 
-                        : variance <= 0 ? 'grey'
-                        : variance <= 1 ? 'yellow'
-                        : 'red'
+                        return variance <= -2 ? '#3fc5f0' 
+                        : variance <= -1 ? '#42dee1'
+                        : variance <= 0 ? '#fdffab'
+                        : variance <= 1 ? '#ffd3b6'
+                        : '#ffaaa5'
                     })
                     .attr('data-month', (item)=>{
                         return item.month
@@ -115,20 +120,15 @@
                     })
 
                 // TOOLTIP
-                    .on('mouseover', function (event, d) {
-                        var i = this.getAttribute('index');
-                        tooltip.style('opacity', 1);
-                        tooltip
-                        .html('hey girl')
-                        .style('left', event.pageX + 'px')
-                        .style('top', event.pageY + 'px');
-                        tip.show
-
-                    })
-                    .on('mouseout', function () {
-                        tooltip.style('opacity', 0);
-                        tip.hide;
-                    });
+                    .on('mouseover', function (event, item) {
+                        var date = new Date(item.year, item.month);
+                        var str = '<span>' + d3.timeFormat('%B - %Y')(date) + '</span>'
+                                + '<span>'+ (Math.round((baseTemp + item.variance) * 10) / 10)+'℃</span>'
+                                + '<span>'+ (Math.round(item.variance * 10) / 10) +'℃</span>';
+                        tip.attr('data-year', item.year);
+                        tip.show(str, this);
+                        })
+                    .on('mouseout', tip.hide);
 
 
                 
