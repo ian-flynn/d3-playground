@@ -29,6 +29,10 @@
         d3.json('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json')
             .then((datas) => {
                 var monthlyData = datas.monthlyVariance;
+                monthlyData.forEach((item) => {
+                    item.month -= 1;
+                });
+
                 console.log(monthlyData)
 
             // TITLE 
@@ -45,46 +49,81 @@
                     .attr('y', 80)
                     .attr('id', 'description');
                 
-            // X-AXIS (left-right)
+            // X-AXIS (Bottom)
                 var yearMin = d3.min(datas.monthlyVariance.map((item)=> item.year));
                 var yearMax = d3.max(datas.monthlyVariance.map((item)=> item.year));
-                const xAxis = d3.axisBottom(d3.scaleLinear()
-                                                .domain([yearMin,yearMax])
-                                                .range([padding, w - padding]));
+                var totalYears = yearMax - yearMin;
+                console.log(totalYears);
+                const xScale = d3.scaleLinear()
+                                    .domain([yearMin,yearMax])
+                                    .range([padding, w - padding])
+                const xAxis = d3.axisBottom(xScale)
+                                .tickFormat(d3.format('d'));
+
                 svg.append('g')
                     .attr('transform', 'translate(0,'+(h - padding)+ ')')
                     .call(xAxis)
                     .attr('id', 'x-axis');
                             
-            // Y-AXIS (up-down)
-                const yAxis = d3.axisLeft(d3.scaleTime()
-                                            .range([h- padding, padding]));
+            // Y-AXIS (Left)
+                const months = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+                const yScale = d3.scaleBand()
+                                    .domain([0,1,2,3,4,5,6,7,8,9,10,11])
+                                    .range([h - padding, padding]);
+
+                const yAxis = d3.axisLeft(yScale)
+                                .tickValues(yScale.domain())
+                                .tickFormat((d,i)=>{
+                                    return months[i];
+                                });
+
                 svg.append('g')
                     .attr('transform', 'translate('+padding+',0)')
                     .call(yAxis)
                     .attr('id', 'y-axis');
 
             // DATA CELLS
-                d3.selectAll('rect')
+                svg.selectAll('rect')
                     .data(monthlyData)
                     .enter()
                     .append('rect')
                     .attr('class', 'cell')
                     .attr('fill', (item) => {
                         const variance = item.variance;
-                        if(variance <= -1){
-                            return 'black';
-                        }else if(variance <= 0){
-                            return 'grey';
-                        }else if(variance <= 1){
-                            return 'yellow';
-                        }else{
-                            return 'red';
-                        }
+                        return variance <= -1 ? 'black' 
+                        : variance <= 0 ? 'grey'
+                        : variance <= 1 ? 'yellow'
+                        : 'red'
                     })
-                    .attr('data-month', 'month')
-                    .attr('data-year', 'year')
+                    .attr('data-month', (item)=>{
+                        return item.month
+                    })
+                    .attr('data-year', (item)=>{
+                        return item.year
+                    })
                     .attr('data-temp', 'temps')
+                    .attr('height', (h -(2*padding))/12)
+                    .attr('y', (item) => {
+                        return yScale(item.month)
+                    })
+                    .attr('width', (w-(2*padding))/totalYears)
+                    .attr('x', (item) => {
+                        return xScale(item.year)
+                    })
+                // TOOLTIP
+                    .on('mouseover', function (event, d) {
+                        var i = this.getAttribute('index');
+                        tooltip.transition().duration(200).style('opacity', 1);
+                        tooltip
+                        .html('hey girl')
+                        .attr('data-date', datas.data[i][0])
+                        .style('left', 350 + 'px')
+                        .style('top', 350 + 'px');
+                    })
+                    .on('mouseout', function () {
+                        tooltip.transition().duration(1000).style('opacity', 0);
+                    });
+
 
                 
                     
