@@ -1,16 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&display=swap');
 * {
     margin: 0;
     padding: 0;
+}
+body {
+    background: linear-gradient(#C06C84, #355C7D);
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
 }
 #main {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 }
 
-svg {
-    background: #a8e6cf;
+#svgBox {
+    background: #FECEAB;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 12px solid #d55b3e;
+    border-radius: 15px;
+}
+#title {
+    font-size: 30px;
+}
+#description {
+    font-size: 20px;
+}
+#y-axis, #x-axis {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
 }
 .cell:hover {
     border: 3px solid black;
@@ -22,6 +45,13 @@ svg {
     text-align: center;
     padding: 12px;
     font: 16px;
-    background: red;
+    background: #2F9599;
     border-radius: 8px;
+    box-shadow: 4px 3px teal;
+}
+#legend {
+    width: 100px;
+    height: 300px;
+    background-color: red;
+    position: absolute;
 }

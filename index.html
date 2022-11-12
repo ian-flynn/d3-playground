@@ -44,16 +44,16 @@
 
             // TITLE 
                 svg.append('text')
-                    .text('Heat Map')
+                    .text('Monthly Global Land-Surface Temperature')
                     .attr('x', 800)
-                    .attr('y', 50)
+                    .attr('y', 40)
                     .attr('id', 'title');
                 
             // SUBTITLE
                 svg.append('text')
                     .text('1753 - 2015: base temperature 8.66℃')
-                    .attr('x', 800)
-                    .attr('y', 80)
+                    .attr('x', 810)
+                    .attr('y', 65)
                     .attr('id', 'description');
                 
             // X-AXIS (Bottom)
@@ -62,7 +62,7 @@
                 var totalYears = yearMax - yearMin;
                 console.log(totalYears);
                 const xScale = d3.scaleLinear()
-                                    .domain([yearMin,yearMax])
+                                    .domain([yearMin,yearMax + 1])
                                     .range([padding, w - padding])
                 const xAxis = d3.axisBottom(xScale)
                                 .tickFormat(d3.format('d'));
@@ -88,6 +88,11 @@
                     .attr('transform', 'translate('+padding+',0)')
                     .call(yAxis)
                     .attr('id', 'y-axis');
+            // LEGEND
+                var legendColors = ['#355C7D','#6C5B7B','#C06C84','#F8B195','#F67280'];
+                
+
+
 
             // DATA CELLS
                 svg.selectAll('rect')
@@ -97,11 +102,11 @@
                     .attr('class', 'cell')
                     .attr('fill', (item) => {
                         const variance = item.variance;
-                        return variance <= -2 ? '#3fc5f0' 
-                        : variance <= -1 ? '#42dee1'
-                        : variance <= 0 ? '#fdffab'
-                        : variance <= 1 ? '#ffd3b6'
-                        : '#ffaaa5'
+                        return variance <= -2 ? '#355C7D' 
+                        : variance <= -1 ? '#6C5B7B'
+                        : variance <= 0 ? '#C06C84'
+                        : variance <= 1 ? '#F8B195'
+                        : '#F67280'
                     })
                     .attr('data-month', (item)=>{
                         return item.month
@@ -119,7 +124,7 @@
                         return xScale(item.year)
                     })
 
-                // TOOLTIP
+            // TOOLTIP
                     .on('mouseover', function (event, item) {
                         var date = new Date(item.year, item.month);
                         var str = '<span>' + d3.timeFormat('%B - %Y')(date) + '</span>'
@@ -129,7 +134,8 @@
                         tip.show(str, this);
                         })
                     .on('mouseout', tip.hide);
-
+                
+            
 
                 
                     
