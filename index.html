@@ -19,6 +19,11 @@
         var w = 1400,
             h = 600,
             padding = 80,
+            lowlow = '#355C7D',
+            low = '#6C5B7B',
+            base = '#C06C84',
+            high = '#F8B195',
+            highhigh = '#F67280',
             tip = d3.tip()
                     .attr('id', 'tooltip')
                     .html(function (d) {
@@ -56,6 +61,40 @@
                     .attr('x', 810)
                     .attr('y', 65)
                     .attr('id', 'description');
+
+            // LEGEND
+            var legendData = [[-2, lowlow],
+                                    [-1, low],
+                                    [0, base],
+                                    [1, high],
+                                    [2, highhigh]];
+                const yYScale = d3.scaleBand()
+                                    .domain([-2,-1,0,1,2])
+                                    .range([h-padding, padding]);
+                const yYAxis = d3.axisLeft(yYScale)
+                                    .tickValues(yYScale.domain());
+
+
+                legend = svg.append('g')
+                    .call(yYAxis)
+                    .attr('transform', 'translate('+(w-padding+(padding/2))+',0)')
+                    .attr('id', 'legend');
+
+                legend.append('g')
+                    .selectAll('rect')
+                    .data(legendData)
+                    .enter()
+                    .append('rect')
+                    .style('fill', (d,i)=>d[1])
+                    .attr('y', (item) => {
+                        return yYScale(item[0])
+                    })
+                    .attr('width', 30)
+                    .attr('height', (h -(2*padding))/5);
+                    
+                
+                
+
                 
             // X-AXIS (Bottom)
                 var yearMin = d3.min(datas.monthlyVariance.map((item)=> item.year));
@@ -81,20 +120,13 @@
 
                 const yAxis = d3.axisLeft(yScale)
                                 .tickValues(yScale.domain())
-                                .tickFormat((d,i)=>{
-                                    return months[i];
-                                });
-
+                                .tickFormat((d,i)=>{return months[i];});
                 svg.append('g')
                     .attr('transform', 'translate('+padding+',0)')
                     .call(yAxis)
                     .attr('id', 'y-axis');
-            // LEGEND
-                var legendColors = ['#355C7D','#6C5B7B','#C06C84','#F8B195','#F67280'];
-                
-
-
-
+                    
+            
             // DATA CELLS
                 svg.selectAll('rect')
                     .data(monthlyData)
@@ -103,11 +135,11 @@
                     .attr('class', 'cell')
                     .attr('fill', (item) => {
                         const variance = item.variance;
-                        return variance <= -2 ? '#355C7D' 
-                        : variance <= -1 ? '#6C5B7B'
-                        : variance <= 0 ? '#C06C84'
-                        : variance <= 1 ? '#F8B195'
-                        : '#F67280'
+                        return variance <= -2 ? lowlow 
+                        : variance <= -1 ? low
+                        : variance <= 0 ? base
+                        : variance <= 1 ? high
+                        : highhigh
                     })
                     .attr('data-month', (item)=>{
                         return item.month
@@ -135,13 +167,6 @@
                         tip.show(str, this);
                         })
                     .on('mouseout', tip.hide);
-                
-            
-
-                
-                    
-
-
             })
     </script>
 </body>
