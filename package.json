@@ -1,6 +1,16 @@
 {
+  "name": "d3-heat-map",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "d3-svg-legend": "^2.25.6",
     "d3-tip": "^0.9.1"
-  }
+  },
+  "devDependencies": {}
 }
