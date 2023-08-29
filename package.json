@@ -1,16 +1,30 @@
 {
   "name": "d3-heat-map",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "",
+  "main": "./src/index.js",
+  "author": "Ian Flynn",
   "license": "ISC",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack-dev-server --mode=development --open --hot"
   },
   "dependencies": {
+    "d3": "^7.8.5",
     "d3-svg-legend": "^2.25.6",
-    "d3-tip": "^0.9.1"
+    "d3-tip": "^0.9.1",
+    "d3-v6-tip": "^1.0.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webpack-dev-server": "^4.15.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-react": "^7.22.5",
+    "babel-loader": "^9.1.3",
+    "html-webpack-plugin": "^5.5.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
 }
