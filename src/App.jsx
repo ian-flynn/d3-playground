@@ -4,8 +4,8 @@ const App = () => {
   return (
     <div id='wrapper'>
       <nav>
-        <Link to='/heatmap'>Heat Map</Link>
-        <Link to='/barchart'>Bar Chart</Link>
+        <Link to='/heatmap'>Monthly Global Land-Surface Temperature</Link>
+        <Link to='/barchart'>US Gross Domestic Product</Link>
       </nav>
       <Outlet />
     </div>

@@ -126,7 +126,7 @@ const HeatMap = ({ width = 1400, height = 600, padding = 80 }) => {
     />
   ));
   return (
-    <>
+    <div id='heat-map'>
       <svg width={width} height={height}>
         <text x={810} y={65} id='description'>
           1753 - 2015: base temperature 8.66℃
@@ -160,7 +160,7 @@ const HeatMap = ({ width = 1400, height = 600, padding = 80 }) => {
         <h2>{tooltip[2]}</h2>
         <h3>{tooltip[3]}</h3>
       </div>
-    </>
+    </div>
   );
 };
 

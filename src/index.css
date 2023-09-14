@@ -30,44 +30,76 @@ nav {
   background-color: pink;
   text-align: center;
 }
-svg {
-  background: #feceab;
-  border: 12px solid #d55b3e;
-  border-radius: 15px;
+#heat-map {
+  & svg {
+    background: #feceab;
+    border: 12px solid #d55b3e;
+    border-radius: 15px;
+  }
+  .minusTwo {
+    fill: #355c7d;
+  }
+  .minusOne {
+    fill: #6c5b7b;
+  }
+  .minusZero {
+    fill: #c06c84;
+  }
+  .plusOne {
+    fill: #f8b195;
+  }
+  .plusTwo {
+    fill: #f67280;
+  }
+  #tooltip {
+    background-color: red;
+    background: #2f9599;
+    border-radius: 8px;
+    box-shadow: 4px -3px teal;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    position: absolute;
+    pointer-events: none;
+    transform: translate(-50%, -110%);
+  }
+  #tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: #2f9599 transparent transparent transparent;
+  }
 }
-.minusTwo {
-  fill: #355c7d;
-}
-.minusOne {
-  fill: #6c5b7b;
-}
-.minusZero {
-  fill: #c06c84;
-}
-.plusOne {
-  fill: #f8b195;
-}
-.plusTwo {
-  fill: #f67280;
-}
-#tooltip {
-  background-color: red;
-  background: #2f9599;
-  border-radius: 8px;
-  box-shadow: 4px -3px teal;
-  text-align: center;
-  padding: 0.5rem 0.75rem;
-  position: absolute;
-  pointer-events: none;
-  transform: translate(-50%, -110%);
-}
-#tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -7px;
-  border-width: 7px;
-  border-style: solid;
-  border-color: #2f9599 transparent transparent transparent;
+
+#bar-chart {
+  & svg {
+    background-color: #ddeedf;
+    /* box-shadow: #5c715e 0px 7px 29px 0px; */
+    font-size: 30px;
+  }
+  .bar:hover {
+    fill: #b6cdbd;
+  }
+  #tooltip {
+    position: absolute;
+    background: #f2f9f1;
+    box-shadow: #5c715e 1px 1px 10px;
+    transform: translate(-50%, -120%);
+    padding: 0.5rem 1rem;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+  }
+  #tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: #f2f9f1 transparent transparent transparent;
+  }
 }
