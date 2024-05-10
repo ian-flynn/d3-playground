@@ -134,3 +134,20 @@ const BarChart = ({ width = 1200, height = 800, padding = 80, barGap = 1 }) => {
 };
 
 export default BarChart;
+
+var maxArea = function (height) {
+  let big = 0;
+
+  for (
+    let left = 0, right = height.length - 1;
+    right - left > 0;
+    height[left] > height[right] ? right-- : left++
+  ) {
+    let shortSide = height[left] > height[right] ? height[right] : height[left];
+
+    let area = (right - left) * shortSide;
+    if (area > big) big = area;
+  }
+
+  return big;
+};
