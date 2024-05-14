@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.jsx';
 import HeatMap from './pages/HeatMap.jsx';
 import BarChart from './pages/BarChart.jsx';
+import ScatterPlot from './pages/ScatterPlot.jsx';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: 'barchart',
         element: <BarChart />,
+      },
+      {
+        path: 'scatterplot',
+        element: <ScatterPlot />,
       },
     ],
   },

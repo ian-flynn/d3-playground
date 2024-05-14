@@ -6,6 +6,7 @@ const App = () => {
       <nav>
         <Link to='/heatmap'>Monthly Global Land-Surface Temperature</Link>
         <Link to='/barchart'>US Gross Domestic Product</Link>
+        <Link to='/scatterplot'>Doping in Professional Biking</Link>
       </nav>
       <Outlet />
     </div>
