@@ -1,8 +1,10 @@
 import * as d3 from 'd3';
-import { useEffect, useState, useRef, useReducer } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import bikeDopingJson from '../content/bikeDoping.json';
 
 const ScatterPlot = ({ width = 800, height = 800, padding = 80 }) => {
+  const [tooltip, setTooltip] = useState({ display: false, top: 0, left: 0 });
+
   // Y-Axis
   const gy = useRef();
   const bikeDopingData = bikeDopingJson.map((d) => {
@@ -41,16 +43,25 @@ const ScatterPlot = ({ width = 800, height = 800, padding = 80 }) => {
   }, [gx, xScale]);
 
   // DOTS
-  const dots = bikeDopingData.map((datum) => {
-    // console.log(datum);
+  const dots = bikeDopingData.map((datum, index) => {
     return (
       <circle
+        key={index}
         r={8}
         cx={xScale(datum.Year)}
         cy={yScale(datum.Time)}
-        className='dot'
         data-xvalue={datum.Year}
         data-yvalue={datum.Time}
+        className={datum.Doping ? 'dot dopers' : 'dot bikers'}
+        onMouseEnter={(e) => {
+          console.log(e.target.dataset);
+
+          setTooltip({
+            display: true,
+            top: e.pageY,
+            left: e.pageX,
+          });
+        }}
       ></circle>
     );
   });
@@ -77,6 +88,16 @@ const ScatterPlot = ({ width = 800, height = 800, padding = 80 }) => {
         ></g>
         {dots}
       </svg>
+      <div
+        id='tooltip'
+        style={{
+          top: tooltip.top,
+          left: tooltip.left,
+          display: tooltip.display ? 'block' : 'none',
+        }}
+      >
+        Tooltip
+      </div>
     </div>
   );
 };
